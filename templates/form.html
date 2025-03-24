@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планування ідеального відпочинку</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+        }
+        button {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #95a5a6;
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-size: 20px;
+            width: 55px;
+            z-index: 9999;
+        }
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .chat-mode {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ddd;
+        }
+        .chat-mode button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #e1e1e1;
+        }
+        .chat-mode button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .chat-input {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input input {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        .chat-input button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .message.bot {
+            color: #007bff;
+        }
+        .message.user {
+            color: #2c3e50;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Планування ідеального відпочинку</h1>
+        <form action="/submit" method="post">
+            <label>Ваше ім'я:</label>
+            <input type="text" name="name" required>
+            <label>Кількість людей:</label>
+            <input type="number" name="group_size" required>
+            <label>Дата початку:</label>
+            <input type="date" name="start_date" required>
+            <label>Дата закінчення:</label>
+            <input type="date" name="end_date" required>
+            <label>Тип відпочинку:</label>
+            <select name="vacation_type" multiple>
+                <option value="Пляжний">Пляжний відпочинок</option>
+                <option value="Міський">Міські екскурсії</option>
+                <option value="Гірський">Гірські походи</option>
+                <option value="Природний">Пригоди на природі</option>
+                <option value="Спокійний">Спокійний відпочинок</option>
+            </select>
+            <label>Клімат:</label>
+            <select name="climate_preference" required>
+                <option value="Теплий">Теплий</option>
+                <option value="Помірний">Помірний</option>
+                <option value="Холодний">Холодний</option>
+                <option value="Не має значення">Не має значення</option>
+            </select>
+            <label>Цілі відпустки:</label>
+            <textarea name="goals" required></textarea>
+            <label>Активності:</label>
+            <select name="activities" multiple>
+                <option value="Серфінг">Серфінг</option>
+                <option value="Музеї">Відвідування музеїв</option>
+                <option value="Дайвінг">Дайвінг</option>
+                <option value="Йога">Йога</option>
+            </select>
+            <label>Бюджет (в $):</label>
+            <input type="number" name="budget_range" required>
+            <label>Особливі потреби:</label>
+            <textarea name="special_needs"></textarea>
+            <label>Додаткова інформація:</label>
+            <textarea name="additional_info"></textarea>
+            <button type="submit">Відправити</button>
+        <div class="footer">
+            <p>Форма Планування Відпочинку</p>
+        </div>
+    </div>
+
+    <!-- Chat -->
+    <button class="chat-button" onclick="toggleChat()">💬</button>
+    <div class="chat-window">
+        <div class="chat-header">Чат з ботом</div>
+        <div class="chat-mode">
+            <button id="fillAllMode" class="active">Заповнення всієї форми</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            
+            <input type="text" id="chatInput" placeholder="Напишіть повідомлення...">
+            <button onclick="sendMessage()">Відправити</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const chatWindow = document.querySelector('.chat-window');
+            chatWindow.style.display = chatWindow.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+
+            fetch(`/ask?message=${message}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.parse) {
+                    fillFormFromBotResponse(data.output);
+                    addMessage('bot', 'Форма заповнена! Перевірте будь ласка')
+                } else {
+                    addMessage('bot', data.output);
+                }
+            })
+            .catch(() => {
+                addMessage('bot', 'Помилка. Спробуйте ще раз.');
+            });
+
+            chatInput.value = '';
+        }
+        function fillFormFromBotResponse(response) {
+    const form = document.querySelector('form');
+    if (!form) {
+        console.error('Форма не знайдена!');
+        return;
+    }
+
+    form.elements['name'].value = response.name || '';
+    form.elements['group_size'].value = response.group_size || 0;
+    form.elements['start_date'].value = response.start_date || '';
+    form.elements['end_date'].value = response.end_date || '';
+
+    const vacationTypeField = form.elements['vacation_type'];
+    if (vacationTypeField) {
+        [...vacationTypeField.options].forEach(option => {
+            option.selected = response.vacation_type.includes(option.value);
+        });
+    }
+
+    form.elements['climate_preference'].value = response.climate_preference || '';
+    form.elements['goals'].value = response.goals || '';
+
+    const activitiesField = form.elements['activities'];
+    if (activitiesField) {
+        [...activitiesField.options].forEach(option => {
+            option.selected = response.activities.includes(option.value);
+        });
+    }
+
+    form.elements['budget_range'].value = response.budget_range || '';
+    form.elements['special_needs'].value = response.special_needs || '';
+    form.elements['additional_info'].value = response.additional_info || '';
+}
+
+        function addMessage(sender, text) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}`;
+            messageElement.textContent = text;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
